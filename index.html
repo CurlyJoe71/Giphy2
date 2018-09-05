@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Giphy Exercise</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<style>
+    body {
+        background: purple;
+    }
+
+    .container {
+        display: flex;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div id="button-display">
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="giph-display" class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+                <form id="keyword-form">
+                    <label for="keyword-input">Add a new Keyword.</label>
+                    <input type="text" id="keyword-input"><br>
+
+                    <!-- Button triggers new movie to be added -->
+                    <input id="add-keyword" type="submit" value="Add a Keyword!">
+                </form>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+
+        var keywordArray = ['peacock', 'dog', 'chipmunk', 'salamander', 'crocodile'];
+
+        var currentKeyWord = keywordArray[0];
+
+        var apiKey = 'RYGjMzNMMGImpoTIbVIOUEWcR5bYpYjm'
+
+        var queryURL = 'http://api.giphy.com/v1/gifs/search?q=' + currentKeyWord + '&api_key=' + apiKey + '&limit=5&rating=g';
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response);
+            var images = $('.images');
+            for (var i = 0; i < response.data.length; i++) {
+                var img = $('<img>');
+                img.attr('src', response.data[i].preview_gif);
+                images.append(img);
+            }
+        });
+
+        // Function for displaying movie data
+        function renderButtons() {
+            $('#add-movie').empty();
+            $('#movies-view').empty();
+            for (i = 0; i < movies.length; i++) {
+                $('#movies-view').append('<button>' + movies[i] + '</button>');
+            }
+        };
+
+        // This function handles events where one button is clicked
+        $("#add-movie").on("click", function () {
+            event.preventDefault();
+            var movie = $("#movie-input").val();
+            if (movie === '') {
+                return;
+            }
+            $('#add-movie').empty();
+            movies.push(movie);
+            renderButtons();
+
+
+            console.log(movie);
+            console.log(movies);
+
+
+            // YOUR CODE GOES HERE
+        });
+
+        // Calling the renderButtons function to display the initial list of movies
+        renderButtons();
+    </script>
+</body>
+
+</html>
