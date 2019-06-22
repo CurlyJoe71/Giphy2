@@ -1,0 +1,66 @@
+body {
+    background-image: url("assets/images/Wiki-background.jpg");
+}
+
+.container {
+    /* display: grid; */
+    /* width: 1800px; */
+    /* grid-template-columns: 300px 350px 300px;
+    grid-template-rows: auto 200px;
+    grid-template-areas: 
+        "button button button"
+        "pic main form"; */
+    /* background: pink; */
+    /* grid-auto-flow: row; */
+}
+
+.button-row {
+    background: blue;
+    /* grid-area: button; */
+}
+
+button {
+    margin: 10px;
+}
+
+#main {
+    /* grid-area: main; */
+    align-items: center;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    text-align: center;
+    color: yellow;
+    font-weight: bolder;
+    font-size: 2em;
+    margin-top: 10px;
+}
+
+#giphy-display {
+    /* grid-area: main; */
+    align-items: center;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    text-align: center;
+    color: yellow;
+    font-weight: bolder;
+    font-size: 1em;
+}
+
+img {
+    margin: 10px;
+    width: 300px;
+    height: auto;
+}
+#side-pic {
+    /* grid-area: pic; */
+    margin: 0px;
+    width: 100%;
+    height: auto;
+}
+
+.form {
+    /* grid-area: form; */
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    text-align: center;
+    color: yellow;
+    font-weight: bolder;
+    font-size: 1.25em;
+}

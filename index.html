@@ -6,177 +6,76 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Giphy Exercise</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 </head>
-<style>
-    body {
-        background-image: url("assets/images/Wiki-background.jpg");
-    }
-
-    .container {
-        display: grid;
-        width: 1800px;
-        grid-template-columns: 300px 350px 300px;
-        grid-template-rows: auto 200px;
-        grid-template-areas: 
-            "button button button"
-            "pic main form";
-        /* background: pink; */
-        grid-auto-flow: row;
-    }
-
-    .button-row {
-        background: blue;
-        grid-area: button;
-    }
-
-    button {
-        margin: 10px;
-    }
-
-    #giphy-display {
-        /* display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto auto;*/
-        grid-area: main;
-        align-items: center;
-        font-family: 'Comic Sans MS', cursive, sans-serif;
-        text-align: center;
-        color: yellow;
-        font-weight: bolder;
-        font-size: 2em;
-    }
-
-    img {
-        margin: 10px;
-        width: 300px;
-        height: auto;
-    }
-    #side-pic {
-        grid-area: pic;
-        margin: 0px;
-    }
-
-    .form {
-        grid-area: form;
-        font-family: 'Comic Sans MS', cursive, sans-serif;
-        text-align: center;
-        color: yellow;
-        font-weight: bolder;
-        font-size: 1.25em;
-    }
-
-</style>
 
 <body>
-    <div class="container">
-        <div class="button-row">
-            <div id="button-display"></div>
+
+    <div class="container-fluid">
+        <div class="row" id="header">
+            <div class="col button-row">
+                <div id="button-display">
+                    <!-- buttons for search terms will be rendered here -->
+                </div>
+            </div>
         </div>
+    </div>
 
-            <div id="giphy-display" class="main">Click for some fun GIFs!</div>
+    <div class="container" id="main">
+        <div class="row">
+            <div class="col-3">
+                <img src="assets/images/donut-simpson.gif" id="side-pic">
+            </div>
+            <div class="col-9">
+                <div class="row">
+                    <div class="col">
+                        <div class="main">Click for some fun GIFs!</div>
 
-            <div class="form">
-                <form id="keyword-form">
-                    <label for="keyword-input">Add a new Keyword.</label>
-                    <input type="text" id="keyword-input"><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <form>
+                            <div class="form-group" id="keyword-form">
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="keyword-input">Add a new Keyword.</label>
 
-                    <input id="add-keyword" type="submit" value="Add a Keyword!">
-                </form>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="text" class="form-control-lg" id="keyword-input"
+                                            placeholder="new keyword">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div id="search-button">
+                                        <!-- search button will be rendered here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" id="giphy-display">
+                    <!-- giphs will be appended to this div -->
+
+                </div>
+
             </div>
 
-            <img src="assets/images/donut-simpson.gif" id="side-pic">
+        </div>
 
     </div>
 
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
-
-
-        var keywordArray = ['homer', 'bart', 'springfield', 'lisa', 'marge'];
-
-        var currentKeyWord = keywordArray[0];
-
-        var apiKey = 'RYGjMzNMMGImpoTIbVIOUEWcR5bYpYjm'
-
-        var queryURL = 'https://api.giphy.com/v1/gifs/search?q=';
-
-        var giphyDisplay = $('#giphy-display');
-
-        var state = $(this).attr('data-state');
-
-        function animate() {
-            var state = $(this).attr('data-state');
-
-            if (state === 'still') {
-                $(this).attr('src', $(this).attr('data-animate'));
-                $(this).attr('data-state', 'animate');
-            }
-            else {
-                $(this).attr('src', $(this).attr('data-still'));
-                $(this).attr('data-state', 'still');
-            }
-        };
-
-        function displayGiphy() {
-            giphyDisplay.empty();
-            console.log(currentKeyWord);
-            currentKeyWord = $(this).text();
-            console.log(currentKeyWord);
-            $.ajax({
-                url: queryURL + currentKeyWord + '&api_key=' + apiKey + '&limit=10&rating=g',
-                method: 'GET'
-            }).then(function (response) {
-                console.log(response.data);
-
-                for (let i = 0; i < response.data.length; i++) {
-
-                    var animateURL = response.data[i].images.fixed_height.url;
-                    var stillURL = response.data[i].images.fixed_height_still.url;
-                    var rating = response.data[i].rating;
-                    var giphyState = 'still';
-                    var newDiv = $('<span>');
-                    var newImageDiv = $('<div>');
-                    var img = $('<img>');
-                    img.attr({ 'src': stillURL, 'max-height': '40px', 'data-still': stillURL, 'data-animate': animateURL, 'data-state': giphyState, 'class': 'currentGiphy', 'data-rating': rating });
-
-                    newDiv.text('Rating: ' + rating);
-                    newImageDiv.append(img);
-                    newDiv.append(newImageDiv);
-                    giphyDisplay.append(newDiv);
-
-                }
-            })
-        };
-
-        // Function for displaying keyword buttons
-        function renderButtons() {
-            $('#button-display').empty();
-            for (i = 0; i < keywordArray.length; i++) {
-                $('#button-display').append('<button type="button" class="keyword-button">' + keywordArray[i] + '</button>');
-            }
-        };
-
-        // This function handles events where one button is clicked
-        $("#add-keyword").on("click", function () {
-            event.preventDefault();
-            var newKeyword = $("#keyword-input").val();
-            if (newKeyword === '') {
-                return;
-            }
-            $('#add-keyword').empty();
-            keywordArray.push(newKeyword);
-            renderButtons();
-        });
-
-        $(document).on("click", ".keyword-button", displayGiphy);
-        renderButtons();
-        $(document).on('click', '.currentGiphy', animate);
-
-    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="main.js"></script>
 </body>
 
 </html>
